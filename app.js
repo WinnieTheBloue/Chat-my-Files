@@ -14,6 +14,13 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get('/', (req, res) => res.render('index'));
+// app.get('/register', (req, res) => res.render('register'));
+// app.get('/login', (req, res) => res.render('login'));
+app.get('/chat', (req, res) => res.render('chat'));
+app.get('/admin', (req, res) => res.render('admin'));
+app.get('files', (req, res) => res.render('files'));
+
+
 app.use('/auth', authRoutes);
 app.use('/files', filesRoutes);
 app.use('/chat', chatRoutes);
