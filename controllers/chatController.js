@@ -4,7 +4,7 @@ const chatController = {
     async getMessages(req, res) {
         try {
             const messages = await Message.find();
-            res.status(200).json(messages);
+            return messages;
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
