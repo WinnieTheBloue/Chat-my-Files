@@ -9,7 +9,7 @@ import filesRoutes from './routes/files.js';
 import chatRoutes from './routes/chat.js';
 import adminRoutes from './routes/admin.js';
 
-import isAuthenticated from './middlewares/authMiddleware.js';
+import {isAuthenticated, isAllowed} from './middlewares/authMiddleware.js';
 
 dotenv.config();
 const app = express();
@@ -30,15 +30,13 @@ app.use(session({
   secret: process.env.SECRET_KEY, 
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } 
 }));
 
 
 // app.get('/', isAuthenticated, (req, res) => res.render('index'));
 
 app.get('/', isAuthenticated, (req, res) => {
-    // Récupérer des informations sur l'utilisateur depuis la base de données si nécessaire
-    res.render('index', { user: req.session.user });
+    res.render('index', { user: session.user });
 });
 
 
