@@ -14,4 +14,3 @@ export const isAllowed = (...allowedRoles) => {
     }
 }
 
-// export default { isAllowed, isAuthenticated};
