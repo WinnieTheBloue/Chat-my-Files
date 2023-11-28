@@ -58,7 +58,7 @@ app.get('files', (req, res) => res.render('files'));
 
 app.use('/auth', authRoutes);
 app.use('/files', filesRoutes);
-// app.use('/chat', chatRoutes);
+app.use('/chat', chatRoutes);
 app.use('/admin', adminRoutes);
 
 const PORT = process.env.PORT || 3030;

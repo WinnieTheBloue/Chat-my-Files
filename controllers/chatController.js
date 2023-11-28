@@ -16,7 +16,7 @@ const chatController = {
                 author: req.body.author
             });
             await message.save();
-            res.status(201).json(message);
+            return res.redirect('/chat');
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

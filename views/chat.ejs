@@ -1,1 +1,15 @@
 <h1>Chat</h1>
+<div id="chat-messages">
+    <% messages.forEach(function(message) { %>
+        <p><strong>
+                <%= message.author %>:
+            </strong>
+            <%= message.content %>
+        </p>
+        <% }); %>
+</div>
+<form action="/chat/messages" method="post">
+    <input type="text" name="content" required placeholder="Votre message">
+    <input type="hidden" name="author" value="65492dd419dc6c72f648b3d2">
+    <button type="submit">Envoyer</button>
+</form>
