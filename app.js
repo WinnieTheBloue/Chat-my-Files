@@ -9,6 +9,8 @@ import filesRoutes from './routes/files.js';
 import chatRoutes from './routes/chat.js';
 import adminRoutes from './routes/admin.js';
 
+import isAuthenticated from './middlewares/authMiddleware.js';
+
 dotenv.config();
 const app = express();
 
@@ -32,7 +34,13 @@ app.use(session({
 }));
 
 
-app.get('/', (req, res) => res.render('index'));
+// app.get('/', isAuthenticated, (req, res) => res.render('index'));
+
+app.get('/', isAuthenticated, (req, res) => {
+    // Récupérer des informations sur l'utilisateur depuis la base de données si nécessaire
+    res.render('index', { user: req.session.user });
+});
+
 
 app.get('/', (req, res) => res.render('index')); 
 app.get('/register', (req, res) => res.render('register'));

@@ -1,16 +1,14 @@
 import User from '../models/user.js';
 import bcrypt from 'bcrypt';
-import session from 'express-session';
 
 const authController = {
     async register(req, res) {
         try {
             const { email, password } = req.body;
-            const hashedPassword = await bcrypt.hash(password, 10);
 
             const newUser = new User({
                 email,
-                password: hashedPassword
+                password: password
             });
 
             await newUser.save();
@@ -24,8 +22,10 @@ const authController = {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email });
-
-            if (user && await bcrypt.compare(password, user.password)) {
+            console.log(user.password)
+            console.log(password)
+            console.log(await user.comparePassword(password))
+            if (user && await user.comparePassword(password)) {
                 req.session.userId = user._id;
                 res.send('User logged in successfully');
             } else {
