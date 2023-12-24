@@ -1,1 +1,25 @@
-<h1>Files</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Files</title>
+</head>
+<body>
+    <h1>Files</h1>
+    <ul>
+        <% files.forEach(file => { %>
+            <li><%= file %></li>
+            <form action="/files/<%= file %>" method="get">
+                <button type="submit">Download</button>
+            </form>
+            <form action="/files/delete/<%= file %>" method="get">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit">Delete</button>
+            </form>
+        <% }); %>
+    </ul>
+    <form action="/files" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <button type="submit">Envoyer</button>
+    </form>
+</body>
+</html>
