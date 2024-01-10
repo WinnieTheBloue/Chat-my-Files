@@ -64,7 +64,6 @@ app.get('/admin', isAuthenticated, async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-app.get('files', (req, res) => res.render('files'));
 
 
 app.use('/auth', authRoutes);
