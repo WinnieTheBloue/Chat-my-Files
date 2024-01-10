@@ -38,7 +38,7 @@ app.use(session({
 // app.get('/', isAuthenticated, (req, res) => res.render('index'));
 
 app.get('/', isAuthenticated, (req, res) => {
-  res.render('index', { user: session.user });
+  res.render('index', { user: req.session.user });
 });
 
 

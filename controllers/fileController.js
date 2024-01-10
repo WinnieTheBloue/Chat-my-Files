@@ -4,6 +4,8 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+const user = req.session.user;
+
 // Configuration de Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,7 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const fileController = {
-    async listFiles(req, res) {
+    async listFiles(req, res, user) {
         try {
             const currentModuleUrl = new URL(import.meta.url);
             const folderPath = path.join(path.dirname(currentModuleUrl.pathname), '../uploaded_files');
@@ -32,7 +34,7 @@ const fileController = {
                 console.log('Liste des fichiers dans le dossier uploaded_files :', files);
 
                 // Rendre la vue 'files' en passant la liste des fichiers
-                res.render('files', { files });
+                res.render('files', { files, user });
             });
         }
         catch (err) {

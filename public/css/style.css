@@ -283,3 +283,34 @@ tr select {
   font-size: 1em;
   padding-left: 20px;
 }
+.index {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dsc {
+  color: #e3e3e3;
+  font-size: 4rem;
+  text-align: center;
+}
+.dsc span {
+  color: #646cff;
+}
+.animated-text-in {
+	display: inline-block;
+  animation: animated-text-in 1s forwards;
+}
+.animated-text-out {
+	display: none;
+}
+@keyframes animated-text-in {
+	0% {
+		opacity: 0;
+		transform: translate3d(0, -100%, 0);
+	}
+  100% {
+  	opacity: 1;
+    transform: translate3d(0, 0, 0);
+	}
+}
