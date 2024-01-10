@@ -1,7 +1,5 @@
 import User from '../models/user.js';
 
-
-
 const adminController = {
     async listUsers(req, res) {
         try {
@@ -14,11 +12,11 @@ const adminController = {
 
     async updateUser(req, res) {
         try {
-            const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            const user = await User.findByIdAndUpdate(req.params.id, { role: req.body.role }, { new: true });
             if (!user) {
                 return res.status(404).json({ message: "Utilisateur non trouvé" });
             }
-            res.json(user);
+            res.redirect('/admin');
         } catch (err) {
             res.status(400).json({ message: err.message });
         }

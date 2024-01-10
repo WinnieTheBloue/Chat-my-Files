@@ -17,7 +17,7 @@
         let day = ('0' + d.getDate()).slice(-2); 
         let month = ('0' + (d.getMonth() + 1)).slice(-2); let year = d.getFullYear(); 
         return `${day}.${month}.${year}`; } %>
-    <div class="container">
+    <div class="container admin">
       <table>
         <tr>
           <th>Email</th>
@@ -30,20 +30,19 @@
           <td><%= formatDate(user.createdAt) %> </td>
           <td>
             <form action="/admin/users/<%= user.id %>" method="post">
-                <select name="role" id="role" onchange="this.form.submit()">
+                <select name="role" id="role">
                     <option value="Admin" <%= user.role === 'Admin' ? 'selected' : '' %>>Admin</option>
                     <option value="Editeur" <%= user.role === 'Editeur' ? 'selected' : '' %>>Editeur</option>
                     <option value="Lecteur" <%= user.role === 'Lecteur' ? 'selected' : '' %>>Lecteur</option>
                     <option value="Invité" <%= user.role === 'Invité' ? 'selected' : '' %>>Invité</option>
                     <option value="Désactivé" <%= user.role === 'Désactivé' ? 'selected' : '' %>>Désactivé</option>
                 </select>
-                <button type="submit">Envoyer</button>
             </form>
           </td>
         </tr>
-
         <% }); %>
       </table>
     </div>
+    <script src="js/formAdmin.js"></script>
   </body>
 </html>

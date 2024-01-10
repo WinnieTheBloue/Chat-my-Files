@@ -58,7 +58,7 @@ app.get('/admin', async (req, res) => {
   try {
     const users = await adminController.listUsers();
     console.log(users);
-    res.render('admin', { users, user: session.user });
+    res.render('admin', { users, user: req.session.user });
   } catch (error) {
     res.status(500).send(error.message);
   }
