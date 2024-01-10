@@ -2,14 +2,16 @@
 <div id="chat-messages">
     <% messages.forEach(function(message) { %>
         <p><strong>
-                <%= message.author %>:
+            <%= message.createdAt %> | De <%= message.author %>:
             </strong>
             <%= message.content %>
         </p>
+        <form action="/chat/messages/<%= message.id %>" method="post">
+            <button type="submit">Supprimer</button>
+        </form>
         <% }); %>
 </div>
 <form action="/chat/messages" method="post">
     <input type="text" name="content" required placeholder="Votre message">
-    <input type="hidden" name="author" value="65492dd419dc6c72f648b3d2">
     <button type="submit">Envoyer</button>
 </form>

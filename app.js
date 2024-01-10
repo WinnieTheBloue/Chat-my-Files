@@ -44,10 +44,10 @@ app.get('/', isAuthenticated, (req, res) => {
 app.get('/', (req, res) => res.render('index'));
 app.get('/register', (req, res) => res.render('register'));
 app.get('/login', (req, res) => res.render('login'));
-app.get('/chat', async (req, res) => {
+app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();
-    res.render('chat', { messages });
+    res.render('chat', { messages, user: session.user });
   } catch (error) {
     res.status(500).send(error.message);
   }

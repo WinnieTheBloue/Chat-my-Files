@@ -13,7 +13,7 @@ const chatController = {
         try {
             const message = new Message({
                 content: req.body.content,
-                author: req.body.author
+                author: req.session.user._id,
             });
             await message.save();
             return res.redirect('/chat');
@@ -28,7 +28,7 @@ const chatController = {
                 res.status(404).json({ message: 'Message not found' });
                 return;
             }
-            res.status(200).json(message);
+            return res.redirect('/chat');
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
