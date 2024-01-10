@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import chatController from './controllers/chatController.js';
+import adminController from './controllers/adminController.js';
 
 import authRoutes from './routes/auth.js';
 import filesRoutes from './routes/files.js';
@@ -53,7 +54,15 @@ app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecte
     res.status(500).send(error.message);
   }
 });
-app.get('/admin', (req, res) => res.render('admin'));
+app.get('/admin', async (req, res) => {
+  try {
+    const users = await adminController.listUsers();
+    console.log(users);
+    res.render('admin', { users, user: session.user });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 app.get('files', (req, res) => res.render('files'));
 
 

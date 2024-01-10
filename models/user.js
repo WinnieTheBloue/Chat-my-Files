@@ -15,7 +15,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['Administrateur', 'Editeur', 'Lecteur', 'Invité', 'Désactivé'],
     default: 'Désactivé'
-  },
+  }
+}, {
+  timestamps: true
 });
 
 userSchema.pre('save', async function (next) {
