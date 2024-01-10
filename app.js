@@ -55,11 +55,12 @@ app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecte
     res.status(500).send(error.message);
   }
 });
-app.get('/admin', async (req, res) => {
+app.get('/admin', isAuthenticated, async (req, res) => {
   try {
     const users = await adminController.listUsers();
-    console.log(users)
-    res.render('admin', { users, user: req.session.user });
+    const user = req.session.user;
+    console.log(user)
+    res.render('admin', { users, user});
   } catch (error) {
     res.status(500).send(error.message);
   }
