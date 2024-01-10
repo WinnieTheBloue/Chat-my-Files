@@ -7,6 +7,9 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
     <link rel="stylesheet" href="css/style.css" />
 </head>
+<body>
+    
+
 <%- include('./partials/header'); %>
     <div class="container chat">
         <div class="chat-messages">
@@ -16,6 +19,7 @@
                         <% if (user && user.role==='Administrateur' ) { %>
                             <div class="delete">
                                 <form action="/chat/messages/<%= message.id %>" method="post">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit">
                                         <span class="material-symbols-rounded"> close </span>
                                     </button>
@@ -36,10 +40,11 @@
                 <% }); %>
                     <% if (user && user.role==='Administrateur' || user && user.role==='Editeur' ) { %>
                         <form class="send" action="/chat/messages" method="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <input type="text" name="content" required placeholder="Votre message" />
                             <button type="submit"><span class="material-symbols-rounded"> arrow_upward </span></button>
                         </form>
                         <% } %>
         </div>
-
+    </body>
 </html>

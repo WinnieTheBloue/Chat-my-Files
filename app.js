@@ -3,6 +3,8 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
 import chatController from './controllers/chatController.js';
 import adminController from './controllers/adminController.js';
 
@@ -16,6 +18,8 @@ import { isAuthenticated, isAllowed } from './middlewares/authMiddleware.js';
 dotenv.config();
 const app = express();
 
+
+
 const dbUri = process.env.DB_URI;
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connexion à MongoDB réussie"))
@@ -27,6 +31,10 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+export const csrfProtection = csrf({ cookie: true });
+app.use(csrfProtection);
 
 app.use(session({
   secret: process.env.SECRET_KEY,
@@ -43,23 +51,22 @@ app.get('/', isAuthenticated, (req, res) => {
 
 
 app.get('/', (req, res) => res.render('index'));
-app.get('/register', (req, res) => res.render('register'));
-app.get('/login', (req, res) => res.render('login'));
-app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
+app.get('/register', csrfProtection, (req, res) => res.render('register', {csrfToken: req.csrfToken()}));
+app.get('/login', csrfProtection, (req, res) => res.render('login', {csrfToken: req.csrfToken()}));
+app.get('/chat', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();
     const user = req.session.user;
-    res.render('chat', { messages, user });
+    res.render('chat', { messages, user, csrfToken: req.csrfToken()});
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
-app.get('/admin', isAuthenticated, async (req, res) => {
+app.get('/admin', csrfProtection, isAuthenticated, async (req, res) => {
   try {
     const users = await adminController.listUsers();
     const user = req.session.user;
-    console.log(user)
-    res.render('admin', { users, user});
+    res.render('admin', { users, user, csrfToken: req.csrfToken() });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -71,8 +78,9 @@ app.use('/files', filesRoutes);
 app.use('/chat', chatRoutes);
 app.use('/admin', adminRoutes);
 
+
+
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
-
 
 export default app;

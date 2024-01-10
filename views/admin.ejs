@@ -30,6 +30,7 @@
           <td><%= formatDate(user.createdAt) %> </td>
           <td>
             <form action="/admin/users/<%= user.id %>" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <select name="role" id="role">
                     <option value="Administrateur" <%= user.role === 'Administrateur' ? 'selected' : '' %>>Admin</option>
                     <option value="Editeur" <%= user.role === 'Editeur' ? 'selected' : '' %>>Editeur</option>
