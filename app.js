@@ -44,6 +44,7 @@ app.get('/', isAuthenticated, (req, res) => {
 app.get('/', (req, res) => res.render('index'));
 app.get('/register', (req, res) => res.render('register'));
 app.get('/login', (req, res) => res.render('login'));
+app.get('/chat2', (req, res) => res.render('chat2'));
 app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();
