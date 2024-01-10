@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import chatController from './controllers/chatController.js';
+import adminController from './controllers/adminController.js';
 
 import authRoutes from './routes/auth.js';
 import filesRoutes from './routes/files.js';
@@ -44,16 +45,25 @@ app.get('/', isAuthenticated, (req, res) => {
 app.get('/', (req, res) => res.render('index'));
 app.get('/register', (req, res) => res.render('register'));
 app.get('/login', (req, res) => res.render('login'));
-app.get('/chat2', (req, res) => res.render('chat2'));
 app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();
-    res.render('chat', { messages, user: session.user });
+    const user = req.session.user;
+    res.render('chat', { messages, user });
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
-app.get('/admin', (req, res) => res.render('admin'));
+app.get('/admin', isAuthenticated, async (req, res) => {
+  try {
+    const users = await adminController.listUsers();
+    const user = req.session.user;
+    console.log(user)
+    res.render('admin', { users, user});
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 app.get('files', (req, res) => res.render('files'));
 
 

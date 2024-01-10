@@ -1,1 +1,49 @@
-<h1>Admin</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('./partials/header'); %> 
+    <% function formatDate(date) { 
+        let d = new Date(date); 
+        let day = ('0' + d.getDate()).slice(-2); 
+        let month = ('0' + (d.getMonth() + 1)).slice(-2); let year = d.getFullYear(); 
+        return `${day}.${month}.${year}`; } %>
+    <div class="container admin">
+      <table>
+        <tr>
+          <th>Email</th>
+          <th>Date de création</th>
+          <th>Rôle</th>
+        </tr>
+        <% users.forEach(function(user) { %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= formatDate(user.createdAt) %> </td>
+          <td>
+            <form action="/admin/users/<%= user.id %>" method="post">
+                <select name="role" id="role">
+                    <option value="Administrateur" <%= user.role === 'Administrateur' ? 'selected' : '' %>>Admin</option>
+                    <option value="Editeur" <%= user.role === 'Editeur' ? 'selected' : '' %>>Editeur</option>
+                    <option value="Lecteur" <%= user.role === 'Lecteur' ? 'selected' : '' %>>Lecteur</option>
+                    <option value="Invité" <%= user.role === 'Invité' ? 'selected' : '' %>>Invité</option>
+                    <option value="Désactivé" <%= user.role === 'Désactivé' ? 'selected' : '' %>>Désactivé</option>
+                </select>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </table>
+      
+    </div>
+    <script src="js/formAdmin.js"></script>
+  </body>
+</html>

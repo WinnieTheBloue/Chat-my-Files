@@ -13,11 +13,17 @@
   </div>
   <div class="menu-el">
     <a href="/files">
-        <span class="material-symbols-rounded">
-            description
-            </span>
+      <span class="material-symbols-rounded"> description </span>
       <p>Files</p>
     </a>
   </div>
+  <% if (user && user.role === 'Administrateur') { %>
+  <div class="menu-el">
+    <a href="/admin">
+      <span class="material-symbols-rounded"> settings </span>
+      <p>Admin</p>
+    </a>
+  </div>
+  <% } %>
 </div>
 <script src="/js/menu.js"></script>
