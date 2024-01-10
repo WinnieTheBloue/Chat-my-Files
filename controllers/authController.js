@@ -3,8 +3,10 @@ import User from '../models/user.js';
 const authController = {
     async register(req, res) {
         try {
-            const { email, password } = req.body;
-
+            const { email, password, confirm } = req.body;
+            if (password !== confirm) {
+                return res.status(400).send('Password do not match');
+            }
             const newUser = new User({
                 email,
                 password: password
