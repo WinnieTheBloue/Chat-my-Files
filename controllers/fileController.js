@@ -49,6 +49,23 @@ const fileController = {
                     return res.status(500).send('Une erreur est survenue lors du téléchargement du fichier.');
                 }
 
+                // Vérifier la taille du fichier
+                const fileSize = req.file.size; // Taille du fichier en octets
+                const maxSize = 2 * 1024 * 1024; // Taille maximale autorisée en octets (ici, 2 Mo)
+    
+                if (fileSize > maxSize) {
+                    // Supprimer le fichier téléchargé s'il dépasse la taille maximale
+                    fs.unlinkSync(req.file.path);
+                    return res.status(400).send('La taille du fichier dépasse la limite autorisée (2 Mo).');
+                }
+
+                //Vérifier le type du fichier
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+                if (!allowedTypes.includes(req.file.mimetype)) {
+                    // Supprimer le fichier téléchargé s'il n'est pas au bon format
+                    fs.unlinkSync(req.file.path);
+                    return res.status(400).send('Le fichier doit être au format jpeg, png ou pdf.');
+                }
                 res.send('Fichier téléchargé avec succès !');
             });
         }
@@ -78,7 +95,6 @@ const fileController = {
     },
 
     async deleteFile(req, res) {
-        console.log("delete appelé")
         try {
             const filename = req.params.filename;
             const currentModuleUrl = new URL(import.meta.url);
