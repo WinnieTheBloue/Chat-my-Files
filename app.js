@@ -49,7 +49,8 @@ app.get('/chat2', (req, res) => res.render('chat2'));
 app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();
-    res.render('chat', { messages, user: session.user });
+    const user = req.session.user;
+    res.render('chat', { messages, user });
   } catch (error) {
     res.status(500).send(error.message);
   }
