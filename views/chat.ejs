@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title>Chat</title>
-</head>
-<h1>Chat</h1>
-<div id="chat-messages">
-    <% messages.forEach(function(message) { %>
-        <p><strong>
-                <%= message.createdAt %> | De <%= message.author %>:
-            </strong>
-            <%= message.content %>
-        </p>
-        <form action="/chat/messages/<%= message.id %>" method="post">
-            <button type="submit">Supprimer</button>
-        </form>
-        <% }); %>
-</div>
-<form action="/chat/messages" method="post">
-    <input type="text" name="content" required placeholder="Votre message">
-    <button type="submit">Envoyer</button>
-</form>
-<p>User connecté : <%= user.email %></p>
+  <head>
+    <title>Connexion</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <%- include('./partials/header'); %>
+  <div class="container chat">
+    <div class="chat-messages">
+      <% messages.forEach(function(message) { %>
+      <div class="<%= message.author == user._id ? 'mine' : 'others' %>">
+        <div class="message">
+            <% if (user && user.role === 'Administrateur') { %>
+          <div class="delete">
+            <form action="/chat/messages/<%= message.id %>" method="post">
+              <button type="submit">
+                <span class="material-symbols-rounded"> close </span>
+              </button>
+            </form>
+          </div>
+          <% } %>
+          <h2><%= message.createdAt %> | De <%= message.author %></h2>
+          <p><%= message.content %></p>
+        </div>
+      </div>
+      <% }); %>
+    <form class="send" action="/chat/messages" method="post">
+        <input type="text" name="content" required placeholder="Votre message" />
+        <button type="submit"><span class="material-symbols-rounded"> arrow_upward </span></button>
+      </form>
+  </div>
+</html>

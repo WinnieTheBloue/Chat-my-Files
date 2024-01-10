@@ -227,11 +227,9 @@ body {
   font-size: 1rem;
   margin-bottom: 1rem;
   color: #646cff;
-  top: -25px;
   position: relative;
 }
 .message p {
-  top: -25px;
   position: relative;
 }
 .delete {
