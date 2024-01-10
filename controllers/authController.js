@@ -38,7 +38,7 @@ const authController = {
             if (err) {
                 return res.status(500).send(err.message);
             }
-            res.send('User logged out successfully');
+            return res.redirect('/');
         });
     },
 }
