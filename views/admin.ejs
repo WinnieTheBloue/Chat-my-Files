@@ -31,7 +31,7 @@
           <td>
             <form action="/admin/users/<%= user.id %>" method="post">
                 <select name="role" id="role">
-                    <option value="Admin" <%= user.role === 'Admin' ? 'selected' : '' %>>Admin</option>
+                    <option value="Administrator" <%= user.role === 'Administrator' ? 'selected' : '' %>>Admin</option>
                     <option value="Editeur" <%= user.role === 'Editeur' ? 'selected' : '' %>>Editeur</option>
                     <option value="Lecteur" <%= user.role === 'Lecteur' ? 'selected' : '' %>>Lecteur</option>
                     <option value="Invité" <%= user.role === 'Invité' ? 'selected' : '' %>>Invité</option>
