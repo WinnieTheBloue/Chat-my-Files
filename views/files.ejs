@@ -9,29 +9,35 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <%- include('./partials/header'); %>
+    <div class="container files">
     <h1>Files</h1>
     <ul>
       <% files.forEach(file => { %>
-      <li><%= file %></li>
-      <% if (user && user.role === 'Administrateur' || 'Editeur' || 'Lecteur') { %>
-      <form action="/files/<%= file %>" method="get">
-        <button type="submit">Download</button>
-      </form>
-      <% } %>
-      <% if (user && user.role === 'Administrateur' || 'Editeur') { %>
-      <form action="/files/delete/<%= file %>" method="get">
-        <input type="hidden" name="_method" value="delete" />
-        <button type="submit">Delete</button>
-      </form>
-      <% } %>
-      <% }); %>
+        <li><%= file %></li>
+        <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur' || user.role === 'Lecteur')) { %>
+            <form action="/files/<%= file %>" method="get">
+                <button type="submit">Download</button>
+            </form>
+        <% } %>
+    
+        <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
+            <form action="/files/delete/<%= file %>" method="get">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit">Delete</button>
+            </form>
+        <% } %>
+    
+    <% }); %>
     </ul>
-    <% if (user && user.role === 'Administrateur' || 'Editeur') { %>
+    <br>
+    <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
     <h3>Upload a file</h3>
     <form action="/files" method="post" enctype="multipart/form-data">
       <input type="file" name="file" />
       <button type="submit">Envoyer</button>
     </form>
     <% } %>
+  </div>
   </body>
 </html>
