@@ -13,7 +13,7 @@ const chatController = {
         try {
             const message = new Message({
                 content: req.body.content,
-                author: req.session.user._id,
+                author: req.session.user.email,
             });
             await message.save();
             return res.redirect('/chat');
