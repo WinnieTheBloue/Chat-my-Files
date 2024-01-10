@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Connexion</title>
-</head>
-<body>
-    <h1>Connexion</h1>
-    <form action="/auth/login" method="post">
-        <input type="email" name="email" required placeholder="Email">
-        <input type="password" name="password" required placeholder="Mot de passe">
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body class="centered-form">
+    <div class="form-container">
+      <h1>Connexion</h1>
+      <form action="/auth/login" method="post">
+        <div class="input-text">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            class="input-text__input"
+            required
+          />
+          <label for="email" class="input-text__label">Email</label>
+        </div>
+        <div class="input-text">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Mot de passe"
+            class="input-text__input"
+            required
+          />
+          <label for="password" class="input-text__label">Mot de passe</label>
+        </div>
         <button type="submit">Se connecter</button>
-    </form>
-</body>
+      </form>
+      <p>Pas de compte ? <a href="/register">Créer un compte</a></p>
+    </div>
+  </body>
 </html>
