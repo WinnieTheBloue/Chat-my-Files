@@ -3,11 +3,12 @@ import File from "../models/file.js";
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import handleErrors from "../middlewares/errorMiddleware.js";
 
 // Configuration de Multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploaded_files/'); // Le dossier où les fichiers seront enregistrés
+        cb(null, '../uploaded_files/'); // Le dossier où les fichiers seront enregistrés
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname); // Nom du fichier
@@ -65,7 +66,7 @@ const fileController = {
                 if (!allowedTypes.includes(req.file.mimetype)) {
                     // Supprimer le fichier téléchargé s'il n'est pas au bon format
                     fs.unlinkSync(req.file.path);
-                    return res.status(400).send('Le fichier doit être au format jpeg, png ou pdf.');
+                    handleErrors(err, req, res);
                 }
                 res.send('Fichier téléchargé avec succès !');
             });
