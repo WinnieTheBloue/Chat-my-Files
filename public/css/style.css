@@ -8,6 +8,7 @@ html,
 body {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 .centered-form {
   background-color: #1f1f1f;
@@ -124,9 +125,9 @@ body {
   flex-direction: row;
   justify-content: start;
 }
-.menu-el:hover span, .menu-el:hover p {
+.menu-el:hover span,
+.menu-el:hover p {
   color: #646cff;
-
 }
 .menu-el span {
   font-size: 1.5rem;
@@ -138,26 +139,73 @@ body {
   color: #e3e3e3;
   line-height: 30px;
 }
-.menu-el .active span, .menu-el .active p {
+.menu-el .active span,
+.menu-el .active p {
   color: #646cff;
 }
 .container {
   width: 100%;
+  height: 100%;
   padding: 2rem;
   padding-left: calc(150px + 2rem);
   height: 100%;
   background-color: #1f1f1f;
 }
+.chat {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .chat-messages {
   height: 100%;
   width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   gap: 1rem;
   padding: 1rem;
-  overflow-y: scroll;
 }
-.chat-messages .others,.chat-messages .mine{
+.chat-messages .send {
+  display: block;
+  width: 100%;
+  border-top: solid 2px #6b6b6b;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+}
+.chat-messages .send input {
+  width: calc(100% - 60px);
+  height: 50px;
+  background: none;
+  border: solid 1px #6b6b6b;
+  border-radius: 1rem;
+  outline: none;
+  color: #e3e3e3;
+  font-size: 1em;
+  padding-left: 20px;
+}
+.chat-messages .send input:focus {
+  border-color: #646cff;
+}
+.chat-messages .send button {
+  width: 45px;
+  height: 45px;
+  background-color: #353535;
+  color: #6b6b6b;
+  border: none;
+  border-radius: 0.2rem;
+}
+.chat-messages .send button:hover {
+  background-color: #646cff;
+  color: #e3e3e3;
+  cursor: pointer;
+}
+.chat-messages .others,
+.chat-messages .mine {
   width: 100%;
   display: flex;
 }
@@ -173,7 +221,31 @@ body {
   border-radius: 1rem;
   min-width: 200px;
   max-width: 400px;
-} 
+}
 .message h2 {
   font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #646cff;
+  top: -25px;
+  position: relative;
+}
+.message p {
+  top: -25px;
+  position: relative;
+}
+.delete {
+  position: relative;
+  top: -25px;
+  left: 100%;
+}
+.delete button {
+  height: 30px;
+  width: 30px;
+  background-color: #a13838;
+  border: none;
+  border-radius: 10rem;
+  color: #e3e3e3;
+}
+.delete button:hover {
+  cursor: pointer;
 }
