@@ -58,6 +58,16 @@ body {
   font-size: 1em;
   padding-left: 20px;
 }
+.msgs {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2rem;
+  height: 80%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 1rem 2rem;
+}
 .form-container input::placeholder {
   color: #e3e3e3;
 }
@@ -164,9 +174,10 @@ body {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 1rem;
   padding: 1rem;
+  overflow-x: hidden;
 }
 .chat-messages .send {
   display: block;

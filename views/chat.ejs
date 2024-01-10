@@ -13,8 +13,9 @@
 <%- include('./partials/header'); %>
     <div class="container chat">
         <div class="chat-messages">
+            <div class="msgs">
             <% messages.forEach(function(message) { %>
-                <div class="<%= message.author == user._id ? 'mine' : 'others' %>">
+                <div class="<%= message.author == user.email ? 'mine' : 'others' %>">
                     <div class="message">
                         <% if (user && user.role==='Administrateur' ) { %>
                             <div class="delete">
@@ -38,6 +39,8 @@
                     </div>
                 </div>
                 <% }); %>
+                
+    </div>
                     <% if (user && user.role==='Administrateur' || user && user.role==='Editeur' ) { %>
                         <form class="send" action="/chat/messages" method="post">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -46,5 +49,6 @@
                         </form>
                         <% } %>
         </div>
+        <script src="/js/msgs.js"></script>
     </body>
 </html>
