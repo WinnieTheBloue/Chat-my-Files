@@ -1,1 +1,22 @@
-<h1>Chat</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Connexion</title>
+  </head>
+  <h1>Chat</h1>
+  <div id="chat-messages">
+    <% messages.forEach(function(message) { %>
+        <p><strong>
+            <%= message.createdAt %> | De <%= message.author %>:
+            </strong>
+            <%= message.content %>
+        </p>
+        <form action="/chat/messages/<%= message.id %>" method="post">
+            <button type="submit">Supprimer</button>
+        </form>
+        <% }); %>
+</div>
+<form action="/chat/messages" method="post">
+    <input type="text" name="content" required placeholder="Votre message">
+    <button type="submit">Envoyer</button>
+</form>

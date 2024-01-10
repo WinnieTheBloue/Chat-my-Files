@@ -3,13 +3,14 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import chatController from './controllers/chatController.js';
 
 import authRoutes from './routes/auth.js';
 import filesRoutes from './routes/files.js';
 import chatRoutes from './routes/chat.js';
 import adminRoutes from './routes/admin.js';
 
-import isAuthenticated from './middlewares/authMiddleware.js';
+import { isAuthenticated, isAllowed } from './middlewares/authMiddleware.js';
 
 dotenv.config();
 const app = express();
@@ -27,25 +28,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: process.env.SECRET_KEY, 
+  secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } 
 }));
 
 
 // app.get('/', isAuthenticated, (req, res) => res.render('index'));
 
 app.get('/', isAuthenticated, (req, res) => {
-    // Récupérer des informations sur l'utilisateur depuis la base de données si nécessaire
-    res.render('index', { user: req.session.user });
+  res.render('index', { user: session.user });
 });
 
 
-app.get('/', (req, res) => res.render('index')); 
+app.get('/', (req, res) => res.render('index'));
 app.get('/register', (req, res) => res.render('register'));
 app.get('/login', (req, res) => res.render('login'));
-app.get('/chat', (req, res) => res.render('chat'));
+app.get('/chat2', (req, res) => res.render('chat2'));
+app.get('/chat', isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
+  try {
+    const messages = await chatController.getMessages();
+    res.render('chat', { messages, user: session.user });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 app.get('/admin', (req, res) => res.render('admin'));
 app.get('files', (req, res) => res.render('files'));
 

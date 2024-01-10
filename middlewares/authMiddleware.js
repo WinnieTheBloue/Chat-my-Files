@@ -1,8 +1,16 @@
-const isAuthenticated = (req, res, next) => {
-    if (req.session && req.session.userId) {
+export const isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
         return next();
-    } else {
-        return res.redirect('/login');
     }
-};
-export default isAuthenticated;
+    return res.redirect('/login');
+}
+
+export const isAllowed = (...allowedRoles) => {
+    return (req, res, next) => {
+        if (req.session.user && allowedRoles.includes(req.session.user.role)) {
+            return next();
+        }
+        return res.status(403).send('You are not allowed to access this page')
+    }
+}
+
