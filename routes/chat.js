@@ -4,7 +4,13 @@ import { isAllowed, isAuthenticated } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/messages', isAuthenticated, isAllowed(['Administrateur', 'Editeur']), chatController.postMessage);
-router.post('/messages/:id', isAuthenticated, isAllowed(['Administrateur']), chatController.deleteMessage);
+router.post('/messages', async (req, res, next) => {
+    const { csrfProtection } = await import('../app.js');
+    csrfProtection(req, res, next)
+}, isAuthenticated, isAllowed(['Administrateur', 'Editeur']), chatController.postMessage);
+router.post('/messages/:id', async (req, res, next) => {
+    const { csrfProtection } = await import('../app.js');
+    csrfProtection(req, res, next)
+}, isAuthenticated, isAllowed(['Administrateur']), chatController.deleteMessage);
 
 export default router;

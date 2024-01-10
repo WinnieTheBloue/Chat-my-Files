@@ -4,7 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-const user = req.session.user;
+// const user = req.session.user;
 
 // Configuration de Multer
 const storage = multer.diskStorage({
