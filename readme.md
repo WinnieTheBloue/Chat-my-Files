@@ -5,8 +5,8 @@ Chat-my-Files is a web application designed to enable users to manage files and 
 
 ## 👥 Members
 - Crotti Pablo
-- Meuwly Nicolas
 - Hächler Tara
+- Meuwly Nicolas
 
 ## 🚀 Features
 - **User management**: Registration and login.
