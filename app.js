@@ -7,6 +7,7 @@ import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
 import chatController from './controllers/chatController.js';
 import adminController from './controllers/adminController.js';
+import fileController from './controllers/fileController.js';
 
 import authRoutes from './routes/auth.js';
 import filesRoutes from './routes/files.js';
@@ -51,18 +52,18 @@ app.get('/', isAuthenticated, (req, res) => {
 
 
 app.get('/', (req, res) => res.render('index'));
-app.get('/register', csrfProtection, (req, res) => res.render('register', {csrfToken: req.csrfToken()}));
-app.get('/login', csrfProtection, (req, res) => res.render('login', {csrfToken: req.csrfToken()}));
+app.get('/register', csrfProtection, (req, res) => res.render('register', { csrfToken: req.csrfToken() }));
+app.get('/login', csrfProtection, (req, res) => res.render('login', { csrfToken: req.csrfToken() }));
 app.get('/chat', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();
     const user = req.session.user;
-    res.render('chat', { messages, user, csrfToken: req.csrfToken()});
+    res.render('chat', { messages, user, csrfToken: req.csrfToken() });
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
-app.get('/admin', csrfProtection, isAuthenticated, async (req, res) => {
+app.get('/admin', csrfProtection, isAuthenticated, isAllowed(['Administrateur']), async (req, res) => {
   try {
     const users = await adminController.listUsers();
     const user = req.session.user;
@@ -71,6 +72,16 @@ app.get('/admin', csrfProtection, isAuthenticated, async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+app.get('/files', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
+  try {
+    const files = await fileController.listFiles();
+    const user = req.session.user;
+    res.render('files', { files, user, csrfToken: req.csrfToken() });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 
 
 app.use('/auth', authRoutes);

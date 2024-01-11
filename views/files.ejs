@@ -17,12 +17,14 @@
         <li><%= file %></li>
         <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur' || user.role === 'Lecteur')) { %>
             <form action="/files/<%= file %>" method="get">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit">Download</button>
             </form>
         <% } %>
     
         <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
             <form action="/files/delete/<%= file %>" method="get">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <input type="hidden" name="_method" value="delete" />
                 <button type="submit">Delete</button>
             </form>
@@ -34,6 +36,7 @@
     <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
     <h3>Upload a file</h3>
     <form action="/files" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <input type="file" name="file" />
       <button type="submit">Envoyer</button>
     </form>
