@@ -16,6 +16,8 @@ import adminRoutes from './routes/admin.js';
 
 import { isAuthenticated, isAllowed } from './middlewares/authMiddleware.js';
 
+import handleErrors from './middlewares/errorMiddleware.js';
+
 dotenv.config();
 const app = express();
 
@@ -32,6 +34,8 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(handleErrors);
 
 app.use(cookieParser());
 export const csrfProtection = csrf({ cookie: true });

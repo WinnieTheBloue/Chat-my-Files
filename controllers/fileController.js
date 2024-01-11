@@ -4,18 +4,19 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import util from 'util';
+import handleErrors from "../middlewares/errorMiddleware.js";
 
 const readdirAsync = util.promisify(fs.readdir);
 
 // Configuration de Multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploaded_files/'); // Le dossier où les fichiers seront enregistrés
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Nom du fichier
-  }
-});
+    destination: function (req, file, cb) {
+        cb(null, '../uploaded_files/'); // Le dossier où les fichiers seront enregistrés
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); // Nom du fichier
+    }
+  });
 
 const upload = multer({ storage: storage });
 
@@ -27,13 +28,13 @@ const fileController = {
 
       const files = await readdirAsync(folderPath);
 
+      // Rendre la vue 'files' en passant la liste des fichiers
       return files;
     } catch (err) {
       console.error(err);
       res.status(500).send('Une erreur est survenue lors de la récupération de la liste des fichiers.');
     }
   },
-
 
   async uploadFile(req, res) {
     try {
@@ -58,7 +59,7 @@ const fileController = {
         if (!allowedTypes.includes(req.file.mimetype)) {
           // Supprimer le fichier téléchargé s'il n'est pas au bon format
           fs.unlinkSync(req.file.path);
-          return res.status(400).send('Le fichier doit être au format jpeg, png ou pdf.');
+          handleErrors(err, req, res);
         }
         res.send('Fichier téléchargé avec succès !');
       });
@@ -106,6 +107,6 @@ const fileController = {
       res.status(500).send('Internal Server Error');
     }
   }
-}
+};
 
 export default fileController;
