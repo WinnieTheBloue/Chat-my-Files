@@ -1,6 +1,9 @@
 import express from 'express';
 import fileController from '../controllers/fileController.js';
 import { isAllowed, isAuthenticated } from '../middlewares/authMiddleware.js';
+import { csrfProtection } from '../app.js';
+import multer from 'multer';
+
 
 const router = express.Router();
 
