@@ -1,5 +1,3 @@
-// import { set } from "mongoose"
-
 let nb = 1
 
 setInterval(function () {

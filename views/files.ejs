@@ -10,37 +10,56 @@
   </head>
   <body>
     <%- include('./partials/header'); %>
-    <div class="container files">
-    <h1>Files</h1>
-    <ul>
-      <% files.forEach(file => { %>
-        <li><%= file %></li>
-        <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur' || user.role === 'Lecteur')) { %>
+    <div class="container admin">
+      <table class="files-t">
+        <tr>
+          <th>Fichier</th>
+          <th>Télécharger</th>
+          <th>Supprimer</th>
+        </tr>
+        <% files.forEach(file => { %>
+        <tr>
+          <td><%= file %></td>
+          <td>
+            <% if (user && (user.role === 'Administrateur' || user.role ===
+            'Editeur' || user.role === 'Lecteur')) { %>
             <form action="/files/<%= file %>" method="get">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button type="submit">Download</button>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <button type="submit">Télécharger</button>
             </form>
-        <% } %>
-    
-        <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
+            <% } %>
+          </td>
+          <td>
+            <% if (user && (user.role === 'Administrateur' || user.role ===
+            'Editeur')) { %>
             <form action="/files/delete/<%= file %>" method="get">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input type="hidden" name="_method" value="delete" />
-                <button type="submit">Delete</button>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <input type="hidden" name="_method" value="delete" />
+              <button type="submit">Supprimer</button>
             </form>
-            <br>
-        <% } %>
-      <% }); %>
-    </ul>
-    <br>
-    <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
-    <h3>Upload a file</h3>
-    <form action="/files?_csrf=<%= csrfToken %>" method="post" enctype="multipart/form-data">
-      <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
-      <input type="file" name="file" />
-      <button type="submit">Envoyer</button>
-    </form>
-    <% } %>
-  </div>
+            <br />
+            <% } %>
+          </td>
+        </tr>
+
+        <% }); %>
+      </table>
+      <% if (user && (user.role === 'Administrateur' || user.role ===
+      'Editeur')) { %>
+      <div class="uploader">
+        <form
+          action="/files?_csrf=<%= csrfToken %>"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="file" id="file" class="inputfile" name="file" />
+          <label for="file"
+            ><span class="material-symbols-rounded"> upload_file </span>Choisir un fichier...</label
+          >
+          <button type="submit">Envoyer</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
   </body>
 </html>

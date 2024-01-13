@@ -263,6 +263,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 table {
   width: 80%;
@@ -345,4 +346,89 @@ tr select {
   padding: 0.2rem 0.7rem;
   font-size: 1rem;
   margin-top: 1rem;
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: #e3e3e3;
+  padding: 1rem 3rem;
+  /* background-color: #e3e3e3; */
+  display: inline-block;
+  border-radius: 1rem;
+  border: solid 1px #e3e3e3;
+}
+
+.inputfile + label span {
+  margin-right: 20px;
+  position: relative;
+  top: 3px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: #646cff;
+  border-color: #646cff;
+}
+
+.inputfile + label {
+	cursor: pointer;
+}
+.uploader {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.uploader form {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.uploader form button {
+  width: 100%;
+  height: 50px;
+  border-radius: 1rem;
+  background-color: #e3e3e3;
+  color: #646cff;
+  border: solid 1px #646cff;
+  font-size: 1em;
+  border: none;
+}
+.uploader form button:hover {
+  background-color: #646cff;
+  border-color: #646cff;
+  color: #e3e3e3;
+  cursor: pointer;
+}
+
+.files-t button {
+  /* width: 100%; */
+  height: 50px;
+  background: #242424;
+  border: solid 1px #6b6b6b;
+  border-radius: 1rem;
+  outline: none;
+  color: #e3e3e3;
+  font-size: 1em;
+  padding: 1rem 2rem;
+}
+.files-t button:hover {
+  background-color: #646cff;
+  border-color: #646cff;
+  color: #e3e3e3;
+  cursor: pointer;
 }
