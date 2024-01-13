@@ -1,9 +1,9 @@
+// errorMiddleware.js
 const handleErrors = (err, req, res, next) => {
-    console.error(err); 
+    console.error(err);
 
     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-
-        let statusCode = 500; 
+        let statusCode = 500;
         let errorMessage = 'Internal Server Error';
 
         if (err.status === 400) {
@@ -18,9 +18,9 @@ const handleErrors = (err, req, res, next) => {
     }
 
     res.locals.error = err;
-    res.locals.errors = [errorMessage];
+    res.locals.errors = []; // Always initialize to an empty array
 
-    let statusCode = 500; 
+    let statusCode = 500;
     let errorMessage = 'Internal Server Error';
 
     if (err.status === 400) {
