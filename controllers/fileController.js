@@ -3,18 +3,25 @@ import path from 'path';
 import fs from 'fs';
 import { promises as fsPromises } from 'fs';
 import util from 'util';
-import handleErrors from "../middlewares/errorMiddleware.js";
 import { fileURLToPath } from 'url';
 
+// Utilize util.promisify to convert fs.readdir into a promise-based function
 const readdirAsync = util.promisify(fs.readdir);
 
-const maxSize = 2 * 1024 * 1024; 
+// Define the maximum file size for uploads
+const maxSize = 2 * 1024 * 1024;
+// Specify the allowed file types for uploads
 const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
 
+// Determine the filename and directory of the current module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+// Set the directory path for storing uploaded files
 const uploadDir = path.join(__dirname, '../uploaded_files');
 
+/**
+ * Asynchronously ensures the existence of the upload directory, creating it if it does not exist.
+ */
 async function ensureUploadDir() {
   try {
     await fs.mkdir(uploadDir, { recursive: true });
@@ -25,6 +32,7 @@ async function ensureUploadDir() {
 
 ensureUploadDir();
 
+// Configure multer storage settings
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -34,6 +42,9 @@ const storage = multer.diskStorage({
   }
 });
 
+/**
+ * File filter for multer, allowing only specific file types.
+ */
 const fileFilter = (req, file, cb) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
@@ -42,13 +53,24 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Set up multer for file uploads with specified storage, fileFilter, and size limits
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: { fileSize: maxSize }
-}).single('file'); 
+}).single('file');
 
 const fileController = {
+  /**
+   * List all the files in the upload directory.
+   *
+   * @async
+   * @function
+   * @memberof fileController
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {Promise<string[]>} - A promise that resolves to an array of file names.
+   */
   async listFiles(req, res) {
     try {
       const currentModulePath = fileURLToPath(import.meta.url);
@@ -63,7 +85,16 @@ const fileController = {
     }
   },
 
-
+  /**
+   * Upload a file to the server and save it in the upload directory.
+   *
+   * @async
+   * @function
+   * @memberof fileController
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   * @returns {Promise<void>} - A promise that resolves when the file is uploaded.
+   */
   async uploadFile(req, res) {
     upload(req, res, async (err) => {
       if (err) {
@@ -83,13 +114,22 @@ const fileController = {
     });
   },
 
+  /**
+   * Download a file from the server.
+   *
+   * @async
+   * @function
+   * @memberof fileController
+   * @param {Object} req - Express request object.
+   * @param {Object} res - Express response object.
+   */
   async downloadFile(req, res) {
     try {
       const filename = req.params.filename;
       const filePath = path.join(__dirname, '../uploaded_files', filename);
-  
+
       console.log(`Attempting to download file at path: ${filePath}`);
-  
+
       try {
         await fsPromises.access(filePath);
         res.download(filePath, filename);
@@ -98,7 +138,7 @@ const fileController = {
         if (error.code === 'ENOENT') {
           res.status(404).send('File not found.');
         } else {
-          throw error; 
+          throw error;
         }
       }
     } catch (error) {
@@ -107,6 +147,15 @@ const fileController = {
     }
   },
 
+  /**
+  * Delete a file from the server.
+  *
+  * @async
+  * @function
+  * @memberof fileController
+  * @param {Object} req - Express request object.
+  * @param {Object} res - Express response object.
+  */
   async deleteFile(req, res) {
     try {
       const filename = req.params.filename;
@@ -115,14 +164,14 @@ const fileController = {
       const filePath = path.join(__dirname, '../uploaded_files', filename);
 
       try {
-        await fsPromises.access(filePath); 
-        await fsPromises.unlink(filePath); 
+        await fsPromises.access(filePath);
+        await fsPromises.unlink(filePath);
         return res.redirect('/files');
       } catch (fileError) {
         if (fileError.code === 'ENOENT') {
           res.status(404).send('File not found.');
         } else {
-          throw fileError; 
+          throw fileError;
         }
       }
     } catch (error) {
