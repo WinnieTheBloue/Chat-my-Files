@@ -24,8 +24,7 @@ const uploadDir = path.join(__dirname, '../uploaded_files');
  */
 async function ensureUploadDir() {
   try {
-    await fs.mkdir(uploadDir, { recursive: true });
-  } catch (error) {
+    await fsPromises.mkdir(uploadDir, { recursive: true });  } catch (error) {
     console.error('Error creating upload directory:', error);
   }
 }
