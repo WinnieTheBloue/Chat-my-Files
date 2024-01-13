@@ -21,8 +21,6 @@ import handleErrors from './middlewares/errorMiddleware.js';
 dotenv.config();
 const app = express();
 
-
-
 const dbUri = process.env.DB_URI;
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connexion à MongoDB réussie"))
@@ -38,8 +36,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(handleErrors);
 
 app.use(cookieParser());
-export const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
 
 app.use(session({
   secret: process.env.SECRET_KEY,
@@ -47,8 +43,9 @@ app.use(session({
   saveUninitialized: false,
 }));
 
+export const csrfProtection = csrf({ cookie: true });
+app.use(csrfProtection);
 
-// app.get('/', isAuthenticated, (req, res) => res.render('index'));
 
 app.get('/', isAuthenticated, (req, res) => {
   res.render('index', { user: req.session.user });
@@ -88,10 +85,10 @@ app.get('/files', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 
 
 
 
-app.use('/auth', authRoutes);
-app.use('/files', filesRoutes);
-app.use('/chat', chatRoutes);
-app.use('/admin', adminRoutes);
+app.use('/auth', csrfProtection, authRoutes);
+app.use('/files', csrfProtection, filesRoutes);
+app.use('/chat', csrfProtection, chatRoutes);
+app.use('/admin', csrfProtection, adminRoutes);
 
 
 

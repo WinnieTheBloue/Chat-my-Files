@@ -35,8 +35,8 @@
     <br>
     <% if (user && (user.role === 'Administrateur' || user.role === 'Editeur')) { %>
     <h3>Upload a file</h3>
-    <form action="/files" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <form action="/files?_csrf=<%= csrfToken %>" method="post" enctype="multipart/form-data">
+      <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
       <input type="file" name="file" />
       <button type="submit">Envoyer</button>
     </form>

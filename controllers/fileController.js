@@ -1,91 +1,108 @@
-//import { filter } from "lodash";
-import File from "../models/file.js";
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { promises as fsPromises } from 'fs';
 import util from 'util';
 import handleErrors from "../middlewares/errorMiddleware.js";
 import { fileURLToPath } from 'url';
 
 const readdirAsync = util.promisify(fs.readdir);
 
-// Configuration de Multer
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, '../uploaded_files/'); // Le dossier où les fichiers seront enregistrés
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname); // Nom du fichier
-    }
-  });
+const maxSize = 2 * 1024 * 1024; 
+const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
 
-const upload = multer({ storage: storage });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const uploadDir = path.join(__dirname, '../uploaded_files');
+
+async function ensureUploadDir() {
+  try {
+    await fs.mkdir(uploadDir, { recursive: true });
+  } catch (error) {
+    console.error('Error creating upload directory:', error);
+  }
+}
+
+ensureUploadDir();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type'), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: { fileSize: maxSize }
+}).single('file'); 
 
 const fileController = {
   async listFiles(req, res) {
     try {
       const currentModulePath = fileURLToPath(import.meta.url);
       const folderPath = path.join(path.dirname(currentModulePath), '../uploaded_files');
-  
+
       const files = await readdirAsync(folderPath);
-  
+
       return files;
     } catch (err) {
       console.error(err);
       res.status(500).send('Une erreur est survenue lors de la récupération de la liste des fichiers.');
     }
   },
-  
+
 
   async uploadFile(req, res) {
-    try {
-      upload.single('file')(req, res, function (err) {
-        if (err) {
+    upload(req, res, async (err) => {
+      if (err) {
+        if (err instanceof multer.MulterError) {
+          return res.status(400).send(err.message);
+        } else {
           console.error(err);
-          return res.status(500).send('Une erreur est survenue lors du téléchargement du fichier.');
+          return res.status(500).send('Internal Server Error');
         }
+      }
 
-        // Vérifier la taille du fichier
-        const fileSize = req.file.size; // Taille du fichier en octets
-        const maxSize = 2 * 1024 * 1024; // Taille maximale autorisée en octets (ici, 2 Mo)
+      if (!req.file) {
+        return res.status(400).send('No file provided');
+      }
 
-        if (fileSize > maxSize) {
-          // Supprimer le fichier téléchargé s'il dépasse la taille maximale
-          fs.unlinkSync(req.file.path);
-          return res.status(400).send('La taille du fichier dépasse la limite autorisée (2 Mo).');
-        }
-
-        //Vérifier le type du fichier
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-        if (!allowedTypes.includes(req.file.mimetype)) {
-          // Supprimer le fichier téléchargé s'il n'est pas au bon format
-          fs.unlinkSync(req.file.path);
-          handleErrors(err, req, res);
-        }
-        res.send('Fichier téléchargé avec succès !');
-      });
-    }
-    catch (err) {
-      console.error(err);
-      res.status(500).send('Une erreur est survenue lors du téléchargement du fichier.');
-    }
+      return res.redirect('/files');
+    });
   },
 
   async downloadFile(req, res) {
     try {
       const filename = req.params.filename;
-      const currentModuleUrl = new URL(import.meta.url);
-      const filePath = path.join(path.dirname(currentModuleUrl.pathname), '../uploaded_files', filename);
-
-      // Check if the file exists
-      if (fs.existsSync(filePath)) {
-        // Send the file as a download attachment
+      const filePath = path.join(__dirname, '../uploaded_files', filename);
+  
+      console.log(`Attempting to download file at path: ${filePath}`);
+  
+      try {
+        await fsPromises.access(filePath);
         res.download(filePath, filename);
-      } else {
-        res.status(404).send('File not found.');
+      } catch (error) {
+        console.error(`Error accessing file: ${error}`);
+        if (error.code === 'ENOENT') {
+          res.status(404).send('File not found.');
+        } else {
+          throw error; 
+        }
       }
     } catch (error) {
-      console.error(error);
+      console.error(`Error in downloadFile: ${error}`);
       res.status(500).send('Internal Server Error');
     }
   },
@@ -93,15 +110,20 @@ const fileController = {
   async deleteFile(req, res) {
     try {
       const filename = req.params.filename;
-      const currentModuleUrl = new URL(import.meta.url);
-      const filePath = path.join(path.dirname(currentModuleUrl.pathname), '../uploaded_files', filename);
-      // Check if the file exists
-      if (fs.existsSync(filePath)) {
-        // Delete the file
-        fs.unlinkSync(filePath);
-        res.send(`File ${filename} has been deleted.`);
-      } else {
-        res.status(404).send('File not found.');
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      const filePath = path.join(__dirname, '../uploaded_files', filename);
+
+      try {
+        await fsPromises.access(filePath); 
+        await fsPromises.unlink(filePath); 
+        return res.redirect('/files');
+      } catch (fileError) {
+        if (fileError.code === 'ENOENT') {
+          res.status(404).send('File not found.');
+        } else {
+          throw fileError; 
+        }
       }
     } catch (error) {
       console.error(error);
