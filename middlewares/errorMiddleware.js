@@ -18,6 +18,7 @@ const handleErrors = (err, req, res, next) => {
     }
 
     res.locals.error = err;
+    res.locals.errors = [errorMessage];
 
     let statusCode = 500; 
     let errorMessage = 'Internal Server Error';

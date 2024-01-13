@@ -18,8 +18,12 @@ const authController = {
         try {
             const { email, password, confirm } = req.body;
             if (password !== confirm) {
-                return res.status(400).send('Password do not match');
+                return res.status(400).render('register', {
+                    csrfToken: req.csrfToken(),
+                    error: "Les mots de passe ne correspondent pas."
+                });
             }
+
             const newUser = new User({
                 email,
                 password: password
@@ -30,7 +34,15 @@ const authController = {
             req.session.user = { ...newUser._doc, password: undefined };
             return res.redirect('/');
         } catch (error) {
-            res.status(500).send(error.message);
+            if (error.name === 'ValidationError') {
+                const errorMessages = Object.values(error.errors).map(e => e.message);
+                return res.status(400).render('register', {
+                    csrfToken: req.csrfToken(),
+                    errors: errorMessages
+                });
+            } else {
+                return res.status(500).send(error.message);
+            }
         }
     },
 

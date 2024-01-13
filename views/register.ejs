@@ -44,6 +44,13 @@
         </div>
         <button type="submit">S'inscrire</button>
       </form>
+      <% if (errors && errors.length > 0) { %>
+        <div class="error">
+          <% errors.forEach(error => { %>
+            <p><%= error %></p>
+          <% }); %>
+        </div>
+      <% } %>
       <p>Déjà un compte ? <a href="/login">Se connecter</a></p>
 
     </div>
