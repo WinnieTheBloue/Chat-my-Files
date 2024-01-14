@@ -8,6 +8,11 @@ Chat-my-Files is a web application designed to enable users to manage files and 
 - Hächler Tara
 - Meuwly Nicolas
 
+## 🧩 Team Organization:
+One team member handled the creation of the chat feature, another person developed the authentication system and the admin page, and a third member worked on the shared file system.
+
+Primarily, we worked individually on our respective features, collaborating when faced with challenges and assisting each other in implementing various security measures.
+
 ## 🚀 Features
 - **User management**: Registration and login.
 - **Chat**: Allows users to engage in a forum.
