@@ -361,7 +361,6 @@ tr select {
   font-weight: 700;
   color: #e3e3e3;
   padding: 1rem 3rem;
-  /* background-color: #e3e3e3; */
   display: inline-block;
   border-radius: 1rem;
   border: solid 1px #e3e3e3;
@@ -416,7 +415,6 @@ tr select {
 }
 
 .files-t button {
-  /* width: 100%; */
   height: 50px;
   background: #242424;
   border: solid 1px #6b6b6b;

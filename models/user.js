@@ -2,6 +2,19 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import validator from 'validator';
 
+/**
+ * Schema for a User document in MongoDB using Mongoose.
+ * Represents a user with email, password, and role.
+ * 
+ * - `email`: String, required, unique. Validates the email using validator.js.
+ * - `password`: String, required. Validates the password strength using validator.js.
+ * - `role`: String. The user's role, restricted to certain predefined values.
+ *           Defaults to 'Désactivé' (Disabled).
+ * - Timestamps: Automatically adds createdAt and updatedAt fields to the schema.
+ * 
+ * Includes a pre-save hook to hash the password before saving to the database.
+ * Also includes a method to compare a candidate password with the user's hashed password.
+ */
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
