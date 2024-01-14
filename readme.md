@@ -46,6 +46,13 @@ To further strengthen the security of the "Chat-my-Files" project, several addit
 - **Use of HTTPS with HSTS (HTTP Strict Transport Security)** : If not already in place, using HTTPS with HSTS would ensure that all communications between the client and the server are encrypted and secure.
 - **Limiting login attempts and account lockout** : To prevent brute force attacks, implementing a system to limit login attempts and temporarily lock accounts after a certain number of failed attempts would be beneficial.
 
+## 🔍 Identifying software weaknesses
+At the end of our project, as students, we recognize the importance of implementing a strategy to identify potential software weaknesses, a crucial step for ensuring the security and functionality of our application. While we have not yet implemented testing procedures, we understand that integrating them is essential. Our approach will include initiating a peer review process, where we collaboratively examine the code to learn about common vulnerabilities and best coding practices.
+
+We plan to incorporate automated testing tools suitable for beginners, which will assist us in scanning for security flaws and performance issues. This will be complemented by basic stress and load testing to evaluate how our software performs under different conditions. Additionally, we aim to seek guidance and feedback from more experienced developers or educators, providing us with an external perspective and expert insights.
+
+By adopting this comprehensive approach, we not only aim to identify and rectify current software issues but also to equip ourselves with the necessary skills and knowledge to prevent similar challenges in future projects. Implementing testing procedures will be a significant learning opportunity for us, enhancing our development process and the quality of our software.
+
 ## 🚀 Features
 - **User management**: Registration and login.
 - **Chat**: Allows users to engage in a forum.
