@@ -62,6 +62,7 @@ In summary, these challenges encountered during our project have been essential 
 - **Passport and Passport-Local** : Provide robust authentication, ensuring that only authenticated users can access certain routes and functionalities.
 - **Multer** : Manages file uploads, allowing control over the types of files uploaded and limiting the risks of executing malicious files.
 - **Validator** : Used for validating and sanitizing user inputs, thus preventing SQL injections and XSS attacks.
+- **Random Filename** : To guard against directory traversal.
 
 ## 📈 Proposals to enhance the security of the "Chat-my-Files" project
 To further strengthen the security of the "Chat-my-Files" project, several additional measures can be considered:
