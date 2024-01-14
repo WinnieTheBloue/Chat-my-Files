@@ -84,7 +84,7 @@ app.get('/files', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 
 });
 
 
-
+// Hello
 app.use('/auth', csrfProtection, authRoutes);
 app.use('/files', csrfProtection, filesRoutes);
 app.use('/chat', csrfProtection, chatRoutes);
@@ -92,7 +92,7 @@ app.use('/admin', csrfProtection, adminRoutes);
 
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
 
 export default app;
