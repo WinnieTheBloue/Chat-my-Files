@@ -45,6 +45,7 @@ To further strengthen the security of the "Chat-my-Files" project, several addit
 - **Implementation of a Web Application Firewall (WAF)** : Using a WAF would help protect the application against common web attacks, such as SQL injections, cross-site scripting (XSS), and denial-of-service (DDoS) attacks.
 - **Use of HTTPS with HSTS (HTTP Strict Transport Security)** : If not already in place, using HTTPS with HSTS would ensure that all communications between the client and the server are encrypted and secure.
 - **Limiting login attempts and account lockout** : To prevent brute force attacks, implementing a system to limit login attempts and temporarily lock accounts after a certain number of failed attempts would be beneficial.
+- **Antivirus file scanning** : Integration of the ClamScan package or utilization of the VirusTotal API to detect files containing viruses and reject their upload.
 
 ## 🔍 Identifying software weaknesses
 At the end of our project, as students, we recognize the importance of implementing a strategy to identify potential software weaknesses, a crucial step for ensuring the security and functionality of our application. While we have not yet implemented testing procedures, we understand that integrating them is essential. Our approach will include initiating a peer review process, where we collaboratively examine the code to learn about common vulnerabilities and best coding practices.
