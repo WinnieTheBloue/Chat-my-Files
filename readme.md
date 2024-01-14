@@ -29,22 +29,22 @@ The "Chat-my-Files" project utilizes several key libraries, listed below with th
 - Validator (v13.11.0): String validation library.
 
 ## 🔒 Security measures implemented
-- Helmet: Secures applications by setting various HTTP headers, protecting against many common web vulnerabilities.
-- Bcryptjs: Used for hashing passwords before storing them in the database, thus protecting against password theft.
-- Dotenv: Manages sensitive information such as secret keys and database connection strings, keeping them out of the source code.
-- Csurf: Provides protection against CSRF attacks, ensuring that each client-side request is legitimate and authorized.
-- Passport and Passport-Local: Provide robust authentication, ensuring that only authenticated users can access certain routes and functionalities.
-- Multer: Manages file uploads, allowing control over the types of files uploaded and limiting the risks of executing malicious files.
-- Validator: Used for validating and sanitizing user inputs, thus preventing SQL injections and XSS attacks.
+- **Helmet** : Secures applications by setting various HTTP headers, protecting against many common web vulnerabilities.
+- **Bcryptjs** : Used for hashing passwords before storing them in the database, thus protecting against password theft.
+- **Dotenv** : Manages sensitive information such as secret keys and database connection strings, keeping them out of the source code.
+- **Csurf** : Provides protection against CSRF attacks, ensuring that each client-side request is legitimate and authorized.
+- **Passport and Passport-Local** : Provide robust authentication, ensuring that only authenticated users can access certain routes and functionalities.
+- **Multer** : Manages file uploads, allowing control over the types of files uploaded and limiting the risks of executing malicious files.
+- **Validator** : Used for validating and sanitizing user inputs, thus preventing SQL injections and XSS attacks.
 
 ## 📈 Proposals to enhance the security of the "Chat-my-Files" project
 To further strengthen the security of the "Chat-my-Files" project, several additional measures can be considered:
-- Implementation of Two-Factor Authentication (2FA): Although the project already uses Passport for authentication, adding two-factor authentication would provide an extra layer of security. This could be achieved using solutions like Authy or Google Authenticator.
-- Encryption of sensitive data: In addition to hashing passwords, encrypting other sensitive data stored in the database (such as email addresses) would enhance the protection of user data against unauthorized access.
-- Security audits and penetration testing: Hiring security experts to conduct regular audits and penetration tests would help identify and rectify potential vulnerabilities that might be missed during development.
-- Implementation of a Web Application Firewall (WAF): Using a WAF would help protect the application against common web attacks, such as SQL injections, cross-site scripting (XSS), and denial-of-service (DDoS) attacks.
-- Use of HTTPS with HSTS (HTTP Strict Transport Security): If not already in place, using HTTPS with HSTS would ensure that all communications between the client and the server are encrypted and secure.
-- Limiting login attempts and account lockout: To prevent brute force attacks, implementing a system to limit login attempts and temporarily lock accounts after a certain number of failed attempts would be beneficial.
+- **Implementation of Two-Factor Authentication (2FA)** : Although the project already uses Passport for authentication, adding two-factor authentication would provide an extra layer of security. This could be achieved using solutions like Authy or Google Authenticator.
+- **Encryption of sensitive data** : In addition to hashing passwords, encrypting other sensitive data stored in the database (such as email addresses) would enhance the protection of user data against unauthorized access.
+- **Security audits and penetration testing** : Hiring security experts to conduct regular audits and penetration tests would help identify and rectify potential vulnerabilities that might be missed during development.
+- **Implementation of a Web Application Firewall (WAF)** : Using a WAF would help protect the application against common web attacks, such as SQL injections, cross-site scripting (XSS), and denial-of-service (DDoS) attacks.
+- **Use of HTTPS with HSTS (HTTP Strict Transport Security)** : If not already in place, using HTTPS with HSTS would ensure that all communications between the client and the server are encrypted and secure.
+- **Limiting login attempts and account lockout** : To prevent brute force attacks, implementing a system to limit login attempts and temporarily lock accounts after a certain number of failed attempts would be beneficial.
 
 ## 🚀 Features
 - **User management**: Registration and login.
