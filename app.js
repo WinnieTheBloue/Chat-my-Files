@@ -83,8 +83,6 @@ app.get('/files', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 
   }
 });
 
-
-// Hello
 app.use('/auth', csrfProtection, authRoutes);
 app.use('/files', csrfProtection, filesRoutes);
 app.use('/chat', csrfProtection, chatRoutes);
