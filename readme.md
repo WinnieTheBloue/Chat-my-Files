@@ -15,18 +15,18 @@ Primarily, we worked individually on our respective features, collaborating when
 
 ## 📚 Libraries used
 The "Chat-my-Files" project utilizes several key libraries, listed below with their respective versions (as specified in the `package.json` file) :
-- Express (v4.18.2): A minimalist and flexible web framework for Node.js, facilitating the creation of web applications and APIs.
-- Mongoose (v8.0.1): A MongoDB object modeling library for Node.js.
-- EJS (v3.1.9): A simple template engine for creating HTML pages with JavaScript.
-- Bcryptjs (v2.4.3): Used for securely hashing passwords.
-- Dotenv (v16.3.1): Allows loading environment variables from a .env file.
-- Helmet (v7.1.0): Helps secure Express applications by setting various HTTP headers.
-- Multer (v1.4.5-lts.1): Middleware for handling file uploads.
-- Passport (v0.7.0) and Passport-Local (v1.0.0): Used for user authentication.
-- Csurf (v1.11.0): Middleware for protection against CSRF (Cross-Site Request Forgery) attacks.
-- Cookie-Parser (v1.4.6): Cookie parser for Express.
-- Body-Parser (v1.20.2): Middleware for parsing incoming request bodies in an Express application.
-- Validator (v13.11.0): String validation library.
+- **Express (v4.18.2)** : A minimalist and flexible web framework for Node.js, facilitating the creation of web applications and APIs.
+- **Mongoose (v8.0.1)** : A MongoDB object modeling library for Node.js.
+- **EJS (v3.1.9)** : A simple template engine for creating HTML pages with JavaScript.
+- **Bcryptjs (v2.4.3)** : Used for securely hashing passwords.
+- **Dotenv (v16.3.1)** : Allows loading environment variables from a .env file.
+- **Helmet (v7.1.0)** : Helps secure Express applications by setting various HTTP headers.
+- **Multer (v1.4.5-lt** s.1): Middleware for handling file uploads.
+- **Passport (v0.7.0** ) and Passport-Local (v1.0.0): Used for user authentication.
+- **Csurf (v1.11.0)** : Middleware for protection against CSRF (Cross-Site Request Forgery) attacks.
+- **Cookie-Parser (v1.4.** 6): Cookie parser for Express.
+- **Body-Parser (v1.20.** 2): Middleware for parsing incoming request bodies in an Express application.
+- **Validator (v13.11.0)** : String validation library.
 
 ## 🔒 Security measures implemented
 - **Helmet** : Secures applications by setting various HTTP headers, protecting against many common web vulnerabilities.
