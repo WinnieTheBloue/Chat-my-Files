@@ -23,7 +23,7 @@
           <td>
             <% if (user && (user.role === 'Administrateur' || user.role ===
             'Editeur' || user.role === 'Lecteur')) { %>
-            <form action="/files/<%= file %>" method="get">
+            <form action="/files/<%= encodeURIComponent(file) %>" method="get">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
               <button type="submit">Télécharger</button>
             </form>
@@ -54,7 +54,8 @@
         >
           <input type="file" id="file" class="inputfile" name="file" />
           <label for="file"
-            ><span class="material-symbols-rounded"> upload_file </span>Choisir un fichier...</label
+            ><span class="material-symbols-rounded"> upload_file </span>Choisir
+            un fichier...</label
           >
           <button type="submit">Envoyer</button>
         </form>
