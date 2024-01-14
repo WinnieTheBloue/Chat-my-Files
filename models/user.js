@@ -1,15 +1,24 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import validator from 'validator';
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    validate: {
+      validator: (value) => validator.isEmail(value),
+      message: 'L\'email est invalide.'
+    }
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: (value) => validator.isStrongPassword(value),
+      message: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.'
+    }
   },
   role: {
     type: String,

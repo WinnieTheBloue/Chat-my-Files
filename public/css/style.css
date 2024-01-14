@@ -432,3 +432,8 @@ tr select {
   color: #e3e3e3;
   cursor: pointer;
 }
+
+.error p{
+  color: #a13838;
+  font-size: 0.8rem;
+}

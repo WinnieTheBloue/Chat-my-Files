@@ -53,8 +53,8 @@ app.get('/', isAuthenticated, (req, res) => {
 
 
 app.get('/', (req, res) => res.render('index'));
-app.get('/register', csrfProtection, (req, res) => res.render('register', { csrfToken: req.csrfToken() }));
-app.get('/login', csrfProtection, (req, res) => res.render('login', { csrfToken: req.csrfToken() }));
+app.get('/register', csrfProtection, (req, res) => res.render('register', { errors: res.locals.errors || [], csrfToken: req.csrfToken() }));
+app.get('/login', csrfProtection, (req, res) => res.render('login', { errors: res.locals.errors || [], csrfToken: req.csrfToken() }));
 app.get('/chat', csrfProtection, isAuthenticated, isAllowed(['Administrateur', 'Editeur', 'Lecteur']), async (req, res) => {
   try {
     const messages = await chatController.getMessages();

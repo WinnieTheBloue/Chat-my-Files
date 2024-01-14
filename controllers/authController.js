@@ -14,12 +14,18 @@ const authController = {
      * @param {Object} req - The HTTP request object, containing the user's email, password, and confirmation password.
      * @param {Object} res - The HTTP response object.
      */
+    // ...
     async register(req, res) {
         try {
             const { email, password, confirm } = req.body;
             if (password !== confirm) {
-                return res.status(400).send('Password do not match');
+                res.locals.errors = ["Les mots de passe ne correspondent pas."];
+                return res.status(400).render('register', {
+                    csrfToken: req.csrfToken(),
+                    errors: res.locals.errors
+                });
             }
+
             const newUser = new User({
                 email,
                 password: password
@@ -30,9 +36,21 @@ const authController = {
             req.session.user = { ...newUser._doc, password: undefined };
             return res.redirect('/');
         } catch (error) {
-            res.status(500).send(error.message);
+            if (error.name === 'ValidationError') {
+                const errorMessages = Object.values(error.errors).map(e => e.message);
+                res.locals.errors = errorMessages;
+                return res.status(400).render('register', {
+                    csrfToken: req.csrfToken(),
+                    errors: res.locals.errors
+                });
+            } else {
+                return res.status(500).send(error.message);
+            }
         }
     },
+
+    // ...
+
 
     /**
      * Asynchronously logs in a user. It checks if the provided email and password match
@@ -42,20 +60,30 @@ const authController = {
      * @param {Object} req - The HTTP request object, containing the user's email and password.
      * @param {Object} res - The HTTP response object.
      */
-    async login(req, res) {
-        try {
-            const { email, password } = req.body;
-            const user = await User.findOne({ email });
-            if (user && await user.comparePassword(password)) {
-                req.session.user = { ...user._doc, password: undefined };
-                return res.redirect('/');
-            } else {
-                res.status(400).send('Invalid email or password');
-            }
-        } catch (error) {
-            res.status(500).send(error.message);
+    // authController.js
+
+// ...
+async login(req, res) {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (user && await user.comparePassword(password)) {
+            req.session.user = { ...user._doc, password: undefined };
+            return res.redirect('/');
+        } else {
+            res.locals.errors = ["Informations de connexion invalides."];
+            return res.status(400).render('login', {
+                csrfToken: req.csrfToken(),
+                errors: res.locals.errors
+            });
         }
-    },
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+},
+
+// ...
+
 
     /**
      * Asynchronously logs out the current user. It destroys the current session
