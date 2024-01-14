@@ -52,6 +52,8 @@ Finally, our experience with Docker for managing our development environment was
 
 In summary, these challenges encountered during our project have been essential learning opportunities. They have allowed us to develop technical skills, understand real-world software development challenges, and implement tailored solutions to overcome these obstacles.
 
+[Click to see the Docker image](https://hub.docker.com/repository/docker/winniethebloue/chat-my-files/general)
+
 ## 🛡️ Security measures implemented
 - **Helmet** : Secures applications by setting various HTTP headers, protecting against many common web vulnerabilities.
 - **Bcryptjs** : Used for hashing passwords before storing them in the database, thus protecting against password theft.
