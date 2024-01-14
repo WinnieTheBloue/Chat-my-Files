@@ -15,7 +15,7 @@ Primarily, we worked individually on our respective features, collaborating when
 
 ## 📚 Libraries used
 The "Chat-my-Files" project utilizes several key libraries, listed below with their respective versions (as specified in the `package.json` file) :
-- xpress (v4.18.2): A minimalist and flexible web framework for Node.js, facilitating the creation of web applications and APIs.
+- Express (v4.18.2): A minimalist and flexible web framework for Node.js, facilitating the creation of web applications and APIs.
 - Mongoose (v8.0.1): A MongoDB object modeling library for Node.js.
 - EJS (v3.1.9): A simple template engine for creating HTML pages with JavaScript.
 - Bcryptjs (v2.4.3): Used for securely hashing passwords.
