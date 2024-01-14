@@ -28,7 +28,31 @@ The "Chat-my-Files" project utilizes several key libraries, listed below with th
 - **Body-Parser (v1.20.** 2): Middleware for parsing incoming request bodies in an Express application.
 - **Validator (v13.11.0)** : String validation library.
 
-## 🔒 Security measures implemented
+## 💥 Challenges faced during project development
+
+### 🖥️ Compatibility between Mac OS and Windows for files Upload, deletion, and download
+
+One of the primary challenges we encountered was ensuring code compatibility between the Mac OS and Windows operating systems. Specifically, we had to adapt our code to ensure that file upload, deletion, and download functionalities worked consistently on both platforms. Differences in file paths, directory separator characters, and naming conventions required adjustments to ensure a uniform user experience.
+
+### 🔒 Integrating CSRF protection on files upload forms (enctype="multipart/form-data")
+
+Integrating protection against Cross-Site Request Forgery (CSRF) attacks proved to be a challenge, especially on forms using the enctype="multipart/form-data" attribute for file uploads. Traditional CSRF protection solutions did not seamlessly work with this type of form. We had to research and implement specific approaches to ensure effective CSRF protection without disrupting file upload functionality.
+
+### 📦 General code structure
+
+The overall code structure was a significant point of concern. As beginners, we sometimes lacked clear and modular organization, making code maintenance and comprehension more challenging over time. We had to rethink and reorganize our code to improve readability, maintainability, and scalability. This included grouping related functionalities, removing redundancies, and adopting consistent naming conventions.
+
+### 🚧 Establishing effective error handling
+
+Error handling in our application presented another major challenge. We realized that our initial code did not adequately handle errors, which could lead to unexpected behaviors and potential security vulnerabilities. We had to revise our code to implement effective error handling, including exception handling mechanisms, clear error messages for users, and proper error logging for debugging.
+
+### 🐳 Initial steps with Docker implementation and uncertainty
+
+Finally, our experience with Docker for managing our development environment was a new endeavor for us. Concepts like containerization, Docker image creation, and container management required time to fully grasp. We encountered issues related to container configuration, volume synchronization, and dependency management. Moreover, we are not entirely certain that Docker has been correctly implemented in our project. This uncertainty about the accuracy of our Docker configuration necessitated additional adjustments and thorough verification to ensure the stability and consistency of our development environment.
+
+In summary, these challenges encountered during our project have been essential learning opportunities. They have allowed us to develop technical skills, understand real-world software development challenges, and implement tailored solutions to overcome these obstacles.
+
+## 🛡️ Security measures implemented
 - **Helmet** : Secures applications by setting various HTTP headers, protecting against many common web vulnerabilities.
 - **Bcryptjs** : Used for hashing passwords before storing them in the database, thus protecting against password theft.
 - **Dotenv** : Manages sensitive information such as secret keys and database connection strings, keeping them out of the source code.
